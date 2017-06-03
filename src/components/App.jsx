@@ -5,15 +5,18 @@ class App extends React.Component {
       select: null,
       videos: null
     };
-    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
-    searchYouTube({key: window.YOUTUBE_API_KEY, query: '', max: 5}, this.init.bind(this));
+    searchYouTube({query: 'react tutorial'}, this.fetch.bind(this));
   }
 
-  init(data) {
-    this.setState({select: data[0], videos: data});
+  fetch(data) {
+    this.setState({videos: data});
+  }
+
+  handleSearch(str) {
+    searchYouTube({query: str}, this.fetch.bind(this));
   }
 
   handleSelect(video) {
@@ -23,17 +26,18 @@ class App extends React.Component {
   }
 
   render() {
-    let player, videoList;
+    let player, videoList, selection;
     if (this.state.videos) {
-      player = <VideoPlayer video = {this.state.select}/>;
-      videoList = <VideoList videos = {this.state.videos} onSelectionChange = {this.handleSelect}/>;
+      selection = this.state.select || this.state.videos[0];
+      player = <VideoPlayer video = {selection}/>;
+      videoList = <VideoList videos = {this.state.videos} onSelectionChange = {this.handleSelect.bind(this)}/>;
     } else {
       player = <div>Please wait</div>;
       videoList = <div>Fetching data</div>;
     }
     return (
       <div>
-        <Nav />
+        <Nav onSearchSubmit = {this.handleSearch.bind(this)}/>
         <div className="col-md-7 clearfix">
         {player}
         </div>

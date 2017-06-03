@@ -1,13 +1,12 @@
 var searchYouTube = (options, callback) => {
-  // TODO
   $.ajax({
     url: 'https://www.googleapis.com/youtube/v3/search/',
     type: 'GET',
     data: {
       part: 'snippet',
-      key: options.key,
+      key: window.YOUTUBE_API_KEY,
       q: options.query,
-      maxResults: options.max,
+      maxResults: 5,
       type: 'video',
       videoEmbeddable: 'true'
     },
