@@ -1,15 +1,12 @@
 class VideoListEntry extends React.Component {
   constructor(video) {
     super(video);
-    console.log('VideoListEntry: ', video.onSelectionChange);
   }
 
   onTitleClick() {
-    console.log('video-list-entry:', this);
-    this.props.onSelectionChange(this);
-    console.log('onTitleClick', this.props.onSelectionChange);
+    this.props.onSelectionChange(this.props.video);
   }
-  
+
   render() {
     const selection = this.props.select;
     return (
@@ -21,7 +18,7 @@ class VideoListEntry extends React.Component {
           <div className="video-list-entry-title" onClick = {this.onTitleClick.bind(this)}>{this.props.video.snippet.title}</div>
           <div className="video-list-entry-detail">{this.props.video.snippet.description}</div>
         </div>
-      </div>  
+      </div>
     );
   }
 }

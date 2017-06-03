@@ -1,30 +1,44 @@
 class App extends React.Component {
-  constructor(videos) {
-    super(videos);
+  constructor() {
+    super();
     this.state = {
-      select: videos[0]
+      select: null,
+      videos: null
     };
-    console.log('App videos', videos);
     this.handleSelect = this.handleSelect.bind(this);
   }
-  
+
+  componentDidMount() {
+    searchYouTube({key: window.YOUTUBE_API_KEY, query: '', max: 5}, this.init.bind(this));
+  }
+
+  init(data) {
+    this.setState({select: data[0], videos: data});
+  }
+
   handleSelect(video) {
     this.setState({
       select: video
     });
   }
-  
+
   render() {
-    var selection = this.state.select;
-    console.log('App selection: ', selection);
+    let player, videoList;
+    if (this.state.videos) {
+      player = <VideoPlayer video = {this.state.select}/>;
+      videoList = <VideoList videos = {this.state.videos} onSelectionChange = {this.handleSelect}/>;
+    } else {
+      player = <div>Please wait</div>;
+      videoList = <div>Fetching data</div>;
+    }
     return (
       <div>
         <Nav />
-        <div className="col-md-7">
-          <VideoPlayer video = {selection}/>
+        <div className="col-md-7 clearfix">
+        {player}
         </div>
-        <div className="col-md-5">
-          <VideoList videos = {this.props.videos} onSelectionChange = {this.handleSelect}/>
+        <div className="col-md-5 clearfix">
+        {videoList}
         </div>
       </div>
     );
@@ -38,4 +52,4 @@ class App extends React.Component {
 // `var` declarations will only exist globally where explicitly defined
 window.App = App;
 
-ReactDOM.render(<App videos = {exampleVideoData}/>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
