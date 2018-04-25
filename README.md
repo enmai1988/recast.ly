@@ -28,7 +28,7 @@ React is an interesting library. Yes, It's a library, not a framework. It's inte
 - React uses a virtual DOM to compare changes and only re-render the sub components that's changed.
 - React recommends JSX which allows you to put your logics and markups together.
 
-
+by Eric Mai
 
 ## Getting started
 
